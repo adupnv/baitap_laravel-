@@ -45,6 +45,20 @@ Route::get('lienhe',[App\Http\Controllers\PageController:: class,'getLienhe']);
 Route::get('about_sanpham',[App\Http\Controllers\PageController:: class,'getAboutus']);
 
 
+Route::get('/admin', [App\Http\Controllers\PageController::class, 'getIndexAdmin']);												
+														
+Route::get('/admin-add-form', [App\Http\Controllers\PageController::class, 'getAdminAdd'])->name('add-product');														
+Route::post('/admin-add-form', [App\Http\Controllers\PageController::class, 'postAdminAdd']);												
+Route::get('/admin-edit-form/{id}', [App\Http\Controllers\PageController::class, 'getAdminEdit']);
+Route::post('/admin-edit', [App\Http\Controllers\PageController::class, 'postAdminEdit']);
+
+																
+Route::post('/admin-delete/{id}', [App\Http\Controllers\PageController::class, 'postAdminDelete'])->name('delete-product');
+
+
+Route::post('/admin-export', [App\Http\Controllers\PageController::class, 'exportAdminProduct'])->name('export');
+
+
 // tạo bảng table in database
 route::get('/', function()
 {
