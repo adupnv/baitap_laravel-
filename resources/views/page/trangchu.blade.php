@@ -131,7 +131,7 @@
                                             <div class="single-item-caption">
                                                 <a class="add-to-cart pull-left" href="{{route('themgiohang',$pr->id)}}"><i
                                                         class="fa fa-shopping-cart"></i></a>
-                                                <a class="beta-btn primary" href="{{route('chitietsanpham',$pr->id)}}">Details <i
+                                                <a class="beta-btn primary" href="detail/{{$tp->id}}">Details <i
                                                         class="fa fa-chevron-right"></i></a>
                                                 <div class="clearfix"></div>
                                             </div>                           

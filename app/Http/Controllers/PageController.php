@@ -163,14 +163,14 @@ class PageController extends Controller
         return view('page.chitiet_sanpham');
     }
 
-    // public function getLienhe(){
-    //     return view('page.lienhe');
-    // }
+    public function getLienhe(){
+        return view('page.lienhe');
+    }
 
 
-    // public function getAbout(){
-    //     return view('page.chitiet_sanpham');
-    // }
+    public function getAbout(){
+        return view('page.chitiet_sanpham');
+    }
 
 
 
