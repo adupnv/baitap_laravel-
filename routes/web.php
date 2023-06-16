@@ -1,77 +1,112 @@
 <?php
-use App\Http\Controllers\AddRoomController;
+
+// use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Schema;
+
+// use App\Http\Controllers\PageController;
+//use Illuminate\Support\Facades\Schema;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
 |
 */
-// Route::get('/products/create', [App\Http\Controllers\ProductController::class, 'store']);
-// Route::get('/products', [App\Http\Controllers\ProductController::class, 'store']);
-Route::get('/', function () {
-    return view('welcome');
-});
-// tinh-toan là đường dẫn  URL để truy cập trang tính toán 
-// Route::get('tinh-toan', [App\Http\Controllers\myController::class, 'index']);
-// Route::post('tinh-toan', [App\Http\Controllers\myController::class, 'tong']);
-// Route::post()
-Route::get('/welcome',function() {
-    return "xin chào bạn đẫ đến đây vì tôi";
-});
-// Route::get('test',[App\Http\Controllers\userController::class,'xinchao']);
-// Route::get('sum', [App\Http\Controllers\sumController::class, 'index']);
-// Route::post('sum', [App\Http\Controllers\sumController::class, 'tinhtong']);
-// Route::get('areaOfShape', [App\Http\Controllers\AreaofshapeController::class, 'computerArea']);
-// Route::post('areaOfShape', [App\Http\Controllers\AreaofshapeController::class, 'areaOfShape']);
-// Route::get('signup', [App\Http\Controllers\signupController::class, 'index']);
-// Route::post('signup', [App\Http\Controllers\signupController::class, 'displayInfor']);
-// Route::get('signup', "signupController@index");
-// Route::post('signup', "signupController@displayInfor");
-// Route::get('products/create', [App\Http\Controllers\ProductController::class, 'create']);
-// Route::post('../index', [App\Http\Controllers\ProductController::class, 'index']);
-// Route::get('../index', [App\Http\Controllers\ProductController::class, 'store']);
-Route::get('/create', [App\Http\Controllers\RoomController::class,'create']);
-Route::post('/store', [App\Http\Controllers\RoomController::class,'store']);
-Route::get('master',[App\Http\Controllers\PageController::class, 'getIndex']);
-Route::get('/loai_sanpham/{id}',[App\Http\Controllers\PageController::class, 'getLoaiSp']);
-Route::get('chitiet_sanpham/{id}',[App\Http\Controllers\PageController:: class,'getChitiet']);
-Route::get('lienhe',[App\Http\Controllers\PageController:: class,'getLienhe']);
-Route::get('about_sanpham',[App\Http\Controllers\PageController:: class,'getAboutus']);
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 
-Route::get('/admin', [App\Http\Controllers\PageController::class, 'getIndexAdmin']);												
-														
-Route::get('/admin-add-form', [App\Http\Controllers\PageController::class, 'getAdminAdd'])->name('add-product');														
-Route::post('/admin-add-form', [App\Http\Controllers\PageController::class, 'postAdminAdd']);												
+// trang cắt layout
+// Route::get('/', function () {return view('master');}) -> name('index');
+// Route::get('/home', function () {return view('page.trangchu');}) -> name('home');
+
+Route::get('loai-san-pham',[				
+	'as'=>'loaisanpham',			
+	'uses'=>'PageController@getLoaiSp'			
+	]);			
+
+  Route::get('chi-tiet-san-pham',[				
+    'as'=>'chitietsanpham',			
+    'uses'=>'PageController@geChitiet'			
+    ]);	
+
+
+// trang web bánh mi
+Route::get('/', function(){
+    return redirect('/trangchu');
+});
+
+Route::get('/trangchu', [App\Http\Controllers\PageController::class, 'getIndex']);
+Route::get('/type/{id}', [App\Http\Controllers\PageController::class, 'getLoaiSp']);
+Route::get('/detail/{id}', [App\Http\Controllers\PageController::class, 'getDetail']);
+
+Route::get('/contact', [App\Http\Controllers\PageController::class, 'getContact']);
+Route::get('/about', [App\Http\Controllers\PageController::class, 'getAbout']);
+
+
+
+
+
+Route::get('/admin-add-form', [App\Http\Controllers\PageController::class, 'getAdminAdd'])->name('add-product');
+
+Route::post('/admin-add-form', [App\Http\Controllers\PageController::class, 'postAdminAdd']);
+
 Route::get('/admin-edit-form/{id}', [App\Http\Controllers\PageController::class, 'getAdminEdit']);
+
 Route::post('/admin-edit', [App\Http\Controllers\PageController::class, 'postAdminEdit']);
 
-																
-Route::post('/admin-delete/{id}', [App\Http\Controllers\PageController::class, 'postAdminDelete'])->name('delete-product');
+Route::post('/admin-delete/{id}', [App\Http\Controllers\PageController::class, 'postAdminDelete']);
+
+Route::get('admin-export', [App\Http\Controllers\PageController::class, 'exportAdminProduct'])->name('export');
+
+Route::get('/admin', [App\Http\Controllers\PageController::class, 'getIndexAdmin']);
 
 
-Route::post('/admin-export', [App\Http\Controllers\PageController::class, 'exportAdminProduct'])->name('export');
 
+Route::get('loai-san-pham/{type}', [
+    'as' => 'loaisanpham',
+    'uses' => 'PageController@getLoaiSp'
 
-// tạo bảng table in database
-route::get('/', function()
-{
-    Schema:: create('sanpham', function($table){
-        $table->increments('id');
-        $table->string('ten',200);
-    });
-    echo "tạo thành công";
+]);
+
+//////////----------------/////////////////////
+
+Route::get('/register', function () {
+    return view('users.register');
 });
-Route::get('/rectangle',[App\Http\Controllers\PageController:: class,'getAboutus']);
 
-Route::get('/',[App\Http\Controllers\CreateTableController:: class,'table']);
+Route::get('/login', function () {
+    return view('users.login');
+});
 
 
+Route::get('/logout',[App\Http\Controllers\UserController::class, 'Logout']);
+Route::post('/login', [App\Http\Controllers\UserController::class, 'Login']);
+
+Route::post('/register', [App\Http\Controllers\UserController::class, 'Register']);
 
 
+Route::get('add-to-cart/{id}', [App\Http\Controllers\PageController::class, 'getAddToCart'])->name('themgiohang');											
+// Route::get('del-cart/{id}', [PageController::class, 'getDelItemCart'])->name('xoagiohang');											
+
+
+//     Route::get('/database', function () {
+//       Schema::create('loaianpham', function ($table) {
+//           $table->increments('id');
+//           $table->string('ten', 2000);
+//       });
+
+//       echo "Đã thực hiện tạo bảng thành công!";
+//   });
+
+
+// Route::get('/signup',"signupController@index");
+// Route::post('/signup',"signupController@displayInfor");
+
+// Route::get('/master',"pageController@getIndex");
